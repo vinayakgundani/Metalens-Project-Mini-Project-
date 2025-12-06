@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetaLens</title>
+
+    <link rel="stylesheet" href="/CSS/Style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/CSS/analytics.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="<%= bodyClass %>">
+
+    <div class="page-wrapper">
+
+        <!-- NAVBAR always at top -->
+        <%- include("../includes/navbar") %>
+
+            <!-- FLASH always below navbar -->
+            <div class="flash-position">
+                <%- include("../includes/flash.ejs") %>
+            </div>
+
+            <!-- MAIN CONTENT from page -->
+            <main>
+                <%- body %>
+            </main>
+
+            <!-- FOOTER always fixed at bottom -->
+            <%- include("../includes/footer") %>
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Global layout fix -->
+    <script src="/JS/script.js"></script>
+    <script src="/JS/analytics.js"></script>
+
+</body>
+
+</html>

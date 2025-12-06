@@ -1,0 +1,14 @@
+<main>
+    <div class="wrapper">
+        <form action="/forgotpass/<%= token %>" method="POST">
+            <h2 style="color: wheat;">Reset Password</h2>
+
+            <div class="input-field">
+                <input type="password" name="password" required>
+                <label>Enter new password</label>
+            </div>
+
+            <button type="submit">Reset Password</button>
+        </form>
+    </div>
+</main>

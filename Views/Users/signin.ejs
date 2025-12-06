@@ -1,0 +1,33 @@
+<main class="d-flex justify-content-center align-items-center" style="flex:1;">
+    <div class="wrapper">
+        <form action="/signin" method="POST">
+            <h2 style="color: wheat;">Login</h2>
+
+            <div class="input-field mt-5">
+                <input type="text" name="username" required>
+                <label>Enter your username</label>
+            </div>
+
+            <div class="input-field mt-5">
+                <input type="password" name="password" required>
+                <label>Enter your password</label>
+            </div>
+
+            <div class="forget">
+                <label for="remember">
+                    <input type="checkbox" id="remember" name="remember">
+                    <span class="remember-text">Remember me</span>
+                </label>
+                <a href="/forgotpass">Forgot password ?</a>
+            </div>
+
+            <button type="submit">Log In</button>
+
+            <div class="register">
+                <p>Don't have an account?
+                    <a href="/signup" style="text-decoration: none; color: blue;">Register</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</main>

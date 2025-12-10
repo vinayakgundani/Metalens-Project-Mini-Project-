@@ -2,84 +2,54 @@
 
 <h2 class="analytics-title">Image Metadata Analyzer</h2>
 
-<!-- If NOT analyzed -->
+<!-- Upload Form -->
 <% if (!meta) { %>
-    <div class="upload-section">
-        <div class="upload-box">
+<div class="upload-section">
+    <div class="upload-box">
 
-            <form id="analyzeForm" action="/analytics/analyze" method="POST" enctype="multipart/form-data">
+        <form id="analyzeForm" action="/analytics/analyze" method="POST" enctype="multipart/form-data">
+            <label class="upload-label">Select an Image</label>
+            <input type="file" name="image" required class="form-control upload-input">
 
-                <label class="upload-label">Select an Image</label>
-                <input type="file" name="image" required class="form-control upload-input">
+            <button class="analyze-btn">Analyze</button>
 
-                <button id="analyzeBtn" class="analyze-btn">Analyze</button>
+            <div id="loader" class="loader hidden"></div>
+        </form>
 
-                <div id="loader" class="loader hidden"></div>
-            </form>
-
-        </div>
     </div>
-    <% } %>
+</div>
+<% } %>
 
+<!-- Result Section -->
+<% if (meta) { %>
 
-        <!-- If analyzed -->
-        <% if (meta) { %>
+<div class="result-container mt-5">
 
-            <div class="result-container">
+    <div class="image-card">
+        <img src="<%= imageUrl %>" class="preview-image">
+    </div>
 
-                <!-- Left Image Box -->
-                <div class="image-card">
-                    <img src="<%= imageUrl %>" class="preview-image">
-                </div>
+    <div class="meta-card">
+        <h3 class="meta-title">Metadata Details</h3>
 
-                <!-- Right Metadata Box -->
-                <div class="meta-card">
+        <ul class="meta-list">
+            <li><b>Name:</b> <%= meta.name %></li>
+            <li><b>Size:</b> <%= meta.size %></li>
+            <li><b>Format:</b> <%= meta.format %></li>
+            <li><b>Dimensions:</b> <%= meta.width %> × <%= meta.height %> px</li>
+            <li><b>Megapixels:</b> <%= meta.megapixels %></li>
+            <li><b>Aspect Ratio:</b> <%= meta.aspectRatio %></li>
+            <li><b>Orientation:</b> <%= meta.orientation %></li>
+            <li><b>Color Space:</b> <%= meta.colorSpace %></li>
+            <li><b>Bit Depth:</b> <%= meta.bitDepth %></li>
+            <li><b>Channels:</b> <%= meta.channels %></li>
+            <li><b>Has Alpha:</b> <%= meta.hasAlpha %></li>
+            <li><b>Density (DPI):</b> <%= meta.density %></li>
+        </ul>
+    </div>
 
-                    <h3 class="meta-title">Metadata Details</h3>
+</div>
 
-                    <ul class="meta-list">
-                        <li><b>Name:</b>
-                            <%= meta.name %>
-                        </li>
-                        <li><b>Size:</b>
-                            <%= meta.size %>
-                        </li>
-                        <li><b>Format:</b>
-                            <%= meta.format %>
-                        </li>
-                        <li><b>Dimensions:</b>
-                            <%= meta.width %> ×
-                                <%= meta.height %> px</li>
-                        <li><b>Megapixels:</b>
-                            <%= meta.megapixels %>
-                        </li>
-                        <li><b>Aspect Ratio:</b>
-                            <%= meta.aspectRatio %>
-                        </li>
-                        <li><b>Orientation:</b>
-                            <%= meta.orientation %>
-                        </li>
-                        <li><b>Color Space:</b>
-                            <%= meta.colorSpace %>
-                        </li>
-                        <li><b>Bit Depth:</b>
-                            <%= meta.bitDepth %>
-                        </li>
-                        <li><b>Channels:</b>
-                            <%= meta.channels %>
-                        </li>
-                        <li><b>Has Alpha:</b>
-                            <%= meta.hasAlpha %>
-                        </li>
-                        <li><b>Density (DPI):</b>
-                            <%= meta.density %>
-                        </li>
-                    </ul>
+<% } %>
 
-                </div>
-
-            </div>
-
-            <% } %>
-
-                <script src="/JS/analytics.js"></script>
+<script src="/JS/analytics.js"></script>

@@ -299,3 +299,25 @@ main {
     width: 100%;
     z-index: 5000;
 }
+
+/* slider label */
+.form-range {
+  -webkit-appearance: none;
+  height: 6px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 10px;
+}
+
+/* ensure loader centered */
+#loader { margin-top: 12px; }
+
+
+.meta-card, .download-btn {
+    position: relative !important;
+    z-index: 9999 !important;
+}
+
+.result-container {
+    position: relative !important;
+    z-index: 10 !important;
+}

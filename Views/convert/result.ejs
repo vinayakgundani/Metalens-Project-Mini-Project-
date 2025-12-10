@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="/CSS/analytics.css">
+
+<h2 class="analytics-title">Conversion Result</h2>
+
+<div class="result-container">
+
+    <!-- LEFT: Converted Image Preview -->
+    <div class="image-card">
+        <img src="<%= previewUrl %>" class="preview-image">
+    </div>
+
+    <!-- RIGHT: Download Button -->
+    <div class="meta-card text-center" style="position: relative; z-index:999;">
+        <h3 class="meta-title">Conversion Successful!</h3>
+
+        <a 
+            href="<%= downloadUrl %>"
+            download
+            class="download-btn"
+            style="padding: 12px 25px; background:#04D9C4; border-radius:25px;
+                   color:black; font-weight:600; display:inline-block;
+                   margin-top:25px; cursor:pointer; position:relative; z-index:9999; text-decoration: none;">
+            Download Converted Image
+        </a>
+    </div>
+
+</div>

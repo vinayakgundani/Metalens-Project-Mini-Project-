@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="/CSS/analytics.css">
+
+<h2 class="analytics-title">Image Compressor</h2>
+
+<div class="upload-section">
+    <div class="upload-box">
+
+        <!-- STEP 1: Upload Image -->
+        <form action="/compress/upload" method="POST" enctype="multipart/form-data">
+            <label class="upload-label">Upload an Image</label>
+            <input type="file" name="image" required class="form-control upload-input">
+
+            <% if (!fileUploaded) { %>
+                <button class="analyze-btn" style="margin-top: 20px;">Next</button>
+            <% } %>
+        </form>
+
+        <!-- STEP 2: Show Slider After Upload -->
+        <% if (fileUploaded) { %>
+            <form action="/compress/process" method="POST">
+
+                <input type="hidden" name="uploadedPath" value="<%= uploadedPath %>">
+
+                <label class="upload-label mt-3">Target Size (KB)</label>
+
+                <input 
+                    type="range"
+                    name="targetSize"
+                    min="1"
+                    max="<%= originalSizeKB %>"
+                    value="<%= originalSizeKB %>"
+                    id="sizeSlider"
+                    class="form-range"
+                    style="width: 100%;">
+
+                <p style="color:white;">Selected: <span id="sizeValue"><%= originalSizeKB %></span> KB</p>
+
+                <button class="analyze-btn">Compress</button>
+            </form>
+        <% } %>
+
+    </div>
+</div>
+
+<script>
+let slider = document.getElementById("sizeSlider");
+let output = document.getElementById("sizeValue");
+
+if (slider) {
+    slider.oninput = function () {
+        output.textContent = this.value;
+    };
+}
+</script>

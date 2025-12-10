@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="/CSS/analytics.css">
+
+<h2 class="analytics-title">Compression Result</h2>
+
+<div class="result-container mt-5">
+
+    <div class="image-card">
+        <img src="<%= previewUrl %>" class="preview-image">
+    </div>
+
+    <div class="meta-card text-center" style="position: relative; z-index:999;">
+        <h3 class="meta-title">Compression Successful!</h3>
+
+        <p style="color:white;">Original size: <b><%= originalSizeKB %> KB</b></p>
+        <p style="color:white;">Compressed size: <b><%= compressedSizeKB %> KB</b></p>
+
+        <a 
+            href="<%= compressedUrl %>" 
+            download
+            class="download-btn"
+            style="padding: 12px 25px; background:#04D9C4; border-radius:25px;
+                   color:black; font-weight:600; display:inline-block;
+                   margin-top:25px; cursor:pointer; z-index:9999; text-decoration:none;">
+            Download Compressed Image
+        </a>
+    </div>
+
+</div>

@@ -7,10 +7,14 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const user = require("./Models/User");
+
 const userouter = require("./routes/user");
 const dashboardrote = require("./routes/dashboard");
 const forgotPassword = require("./routes/forgotPassword");
 const analyticsroute = require("./routes/analytics");
+const convertRoute = require("./routes/convert");
+const compressRoute = require("./routes/compress");
+
 
 
 const sessionOptions = {
@@ -24,18 +28,22 @@ const sessionOptions = {
     }
 };
 
-app.use(express.urlencoded({ extended: true })); // for form data
-app.use(express.json()); // for JSON requests (optional)
-
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(session(sessionOptions));
 app.use(flash());
 app.use(cookieParser());
+
 app.set("view engine", "ejs");
+
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static('Public'));
-app.use(express.static('Public'));
-app.use('/uploads', express.static('uploads'));
+
+app.use(express.static("Public"));
+app.use("/uploads", express.static("uploads"));
+app.use("/converted", express.static("converted"));
+app.use("/compressed", express.static("compressed"));  // ⭐IMPORTANT
+
 
 
 app.use((req, res, next) => {
@@ -45,17 +53,8 @@ app.use((req, res, next) => {
 });
 
 const ejsLayouts = require("express-ejs-layouts");
-app.use(ejsLayouts); // <--- enable layouts
-app.set('layout', 'layouts/boilerplate'); // <--- default layout file (Views/layouts/boilerplate.ejs)
-
-
-// set view engine
-app.set("view engine", "ejs");
-
-// use layouts
-
-// ...existing code...
-
+app.use(ejsLayouts);
+app.set("layout", "layouts/boilerplate");
 
 passport.use(new LocalStrategy(user.authenticate()));
 passport.serializeUser(user.serializeUser());
@@ -63,19 +62,20 @@ passport.deserializeUser(user.deserializeUser());
 
 const mongo_url = "mongodb://127.0.0.1:27017/Agro-Kami";
 
-main().then(() => {
-    console.log("Connected to MongoDb");
-}).catch(err => console.log(err));
+main()
+    .then(() => console.log("Connected to MongoDb"))
+    .catch(err => console.log(err));
 
 async function main() {
     await mongoose.connect(mongo_url);
 }
+
 app.use("/forgotpass", forgotPassword);
 app.use("/dashboard", dashboardrote);
 app.use("/analytics", analyticsroute);
+app.use("/convert", convertRoute);
+app.use("/compress", compressRoute);
 app.use("/", userouter);
-
-
 
 app.listen(8089, () => {
     console.log("Server listening on port 8089");

@@ -1,57 +1,38 @@
 const express = require("express");
-const router = express.Router();
 const multer = require("multer");
 const sharp = require("sharp");
 const path = require("path");
 const fs = require("fs");
+const router = express.Router();
+const { mustLogin } = require("../Middleware/auth");
 
-// Upload folder
 const upload = multer({ dest: "uploads/" });
 
-// Ensure converted folder exists
-if (!fs.existsSync("converted")) {
-    fs.mkdirSync("converted");
-}
+if (!fs.existsSync("converted")) fs.mkdirSync("converted");
 
-// GET Converter Form Page
-router.get("/", (req, res) => {
-    res.render("Convert/index", {
-        bodyClass: "auth-page"
-    });
+router.get("/", mustLogin, (req, res) => {
+    res.render("Convert/index", { bodyClass: "auth-page" });
 });
 
-// POST — Convert Image & Redirect to Result Page
-router.post("/process", upload.single("image"), async (req, res) => {
+router.post("/process", mustLogin, upload.single("image"), async (req, res) => {
     try {
         const file = req.file;
         const format = req.body.format;
 
-        if (!file) {
-            req.flash("error", "Please upload an image");
-            return res.redirect("/convert");
-        }
+        const outputName = `${Date.now()}-${path.parse(file.originalname).name}.${format}`;
+        const outputPath = `converted/${outputName}`;
 
-        const inputPath = file.path;
-        const name = path.parse(file.originalname).name;
-        const outputName = `${Date.now()}-${name}.${format}`;
-        const outputPath = path.join("converted", outputName);
+        await sharp(file.path).toFormat(format).toFile(outputPath);
 
-        // Convert image
-        await sharp(inputPath)
-            .toFormat(format)
-            .toFile(outputPath);
-
-        // Render Clean Result Page
         res.render("Convert/result", {
-            previewUrl: "/" + inputPath.replace(/\\/g, "/"),
+            previewUrl: "/" + file.path.replace(/\\/g, "/"),
             downloadUrl: "/" + outputPath.replace(/\\/g, "/"),
             bodyClass: "auth-page"
         });
 
-    } catch (err) {
-        console.log(err);
+    } catch (e) {
         req.flash("error", "Conversion failed");
-        return res.redirect("/convert");
+        res.redirect("/convert");
     }
 });
 

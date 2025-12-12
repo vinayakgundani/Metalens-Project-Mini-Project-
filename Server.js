@@ -8,14 +8,14 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const user = require("./Models/User");
 
+const { mustLogin, mustLogout } = require("./Middleware/auth");
+
 const userouter = require("./routes/user");
-const dashboardrote = require("./routes/dashboard");
+const dashboardRoute = require("./routes/dashboard");
 const forgotPassword = require("./routes/forgotPassword");
-const analyticsroute = require("./routes/analytics");
+const analyticsRoute = require("./routes/analytics");
 const convertRoute = require("./routes/convert");
 const compressRoute = require("./routes/compress");
-
-
 
 const sessionOptions = {
     secret: "mysecrete",
@@ -42,11 +42,11 @@ app.use(passport.session());
 app.use(express.static("Public"));
 app.use("/uploads", express.static("uploads"));
 app.use("/converted", express.static("converted"));
-app.use("/compressed", express.static("compressed"));  // ⭐IMPORTANT
+app.use("/compressed", express.static("compressed"));
 
-
-
+// Make user available to EJS globally
 app.use((req, res, next) => {
+    res.locals.currentUser = req.user || null;
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     next();
@@ -62,21 +62,18 @@ passport.deserializeUser(user.deserializeUser());
 
 const mongo_url = "mongodb://127.0.0.1:27017/Agro-Kami";
 
-main()
-    .then(() => console.log("Connected to MongoDb"))
-    .catch(err => console.log(err));
-
 async function main() {
     await mongoose.connect(mongo_url);
 }
+main().then(() => console.log("Connected to MongoDb"))
+.catch(err => console.log(err));
 
-app.use("/forgotpass", forgotPassword);
-app.use("/dashboard", dashboardrote);
-app.use("/analytics", analyticsroute);
-app.use("/convert", convertRoute);
-app.use("/compress", compressRoute);
+// ROUTES
 app.use("/", userouter);
+app.use("/forgotpass", forgotPassword);
+app.use("/dashboard", mustLogin, dashboardRoute);
+app.use("/analytics", mustLogin, analyticsRoute);
+app.use("/convert", mustLogin, convertRoute);
+app.use("/compress", mustLogin, compressRoute);
 
-app.listen(8089, () => {
-    console.log("Server listening on port 8089");
-});
+app.listen(8089, () => console.log("Server running on 8089"));

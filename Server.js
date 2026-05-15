@@ -44,7 +44,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/converted", express.static("converted"));
 app.use("/compressed", express.static("compressed"));
 
-// Make user available to EJS globally
+
 app.use((req, res, next) => {
     res.locals.currentUser = req.user || null;
     res.locals.success = req.flash("success");

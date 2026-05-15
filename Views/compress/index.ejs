@@ -5,7 +5,7 @@
 <div class="upload-section">
     <div class="upload-box">
 
-        <!-- STEP 1: Upload Image -->
+        
         <form action="/compress/upload" method="POST" enctype="multipart/form-data">
             <label class="upload-label">Upload an Image</label>
             <input type="file" name="image" required class="form-control upload-input">
@@ -15,7 +15,7 @@
             <% } %>
         </form>
 
-        <!-- STEP 2: Show Slider After Upload -->
+        
         <% if (fileUploaded) { %>
             <form action="/compress/process" method="POST">
 
